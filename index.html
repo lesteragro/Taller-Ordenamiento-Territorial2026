@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Seguimiento de Talleres DDRISS 2026</title>
+
 <style>
 :root {
   --navy:#12495a; --cyan:#53c6cf; --cyan2:#7bd8df; --soft:#eefafb;
@@ -14,203 +15,529 @@
 body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#f6fbfc;color:var(--text)}
 header{background:linear-gradient(135deg,var(--navy),#197585);color:#fff;padding:28px 32px}
 .header-inner{max-width:1500px;margin:auto;display:flex;justify-content:space-between;gap:20px;align-items:center}
-h1{margin:0;font-size:29px} .sub{margin-top:7px;opacity:.85}
+h1{margin:0;font-size:29px}
+.sub{margin-top:7px;opacity:.85}
 .tag{padding:9px 14px;border:1px solid rgba(255,255,255,.35);border-radius:999px;font-size:13px}
 main{max-width:1500px;margin:22px auto;padding:0 20px 36px}
 .metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
 .metric,.progress,.panel{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 5px 18px rgba(25,99,113,.06)}
-.metric{padding:18px} .label{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase}
-.value{font-size:30px;font-weight:800;color:var(--navy);margin-top:7px} .hint{font-size:12px;color:var(--muted);margin-top:4px}
+.metric{padding:18px}
+.label{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase}
+.value{font-size:30px;font-weight:800;color:var(--navy);margin-top:7px}
+.hint{font-size:12px;color:var(--muted);margin-top:4px}
 .progress{margin-top:16px;padding:22px;display:grid;grid-template-columns:210px 1fr;gap:24px;align-items:center}
 .ring{width:170px;height:170px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--cyan) 0deg,#e8f2f4 0deg)}
 .ringin{width:128px;height:128px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center}
-.ringin strong{font-size:34px;color:var(--navy)} .ringin span{display:block;font-size:11px;color:var(--muted);font-weight:700}
+.ringin strong{font-size:34px;color:var(--navy)}
+.ringin span{display:block;font-size:11px;color:var(--muted);font-weight:700}
 .progress h2{margin:0;color:var(--navy);font-size:20px}
-.bar{height:12px;background:#e9f2f4;border-radius:99px;overflow:hidden;margin:15px 0 8px} .bar div{height:100%;width:0;background:linear-gradient(90deg,var(--navy),var(--cyan));transition:.35s}
+.bar{height:12px;background:#e9f2f4;border-radius:99px;overflow:hidden;margin:15px 0 8px}
+.bar div{height:100%;width:0;background:linear-gradient(90deg,var(--navy),var(--cyan));transition:.35s}
 .panel{margin-top:16px;overflow:hidden}
 .toolbar{padding:15px 17px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
-.toolbar h2{margin:0;font-size:18px;color:var(--navy)} .controls{display:flex;gap:8px;flex-wrap:wrap}
+.toolbar h2{margin:0;font-size:18px;color:var(--navy)}
+.controls{display:flex;gap:8px;flex-wrap:wrap}
 input,select{border:1px solid #bddde1;border-radius:10px;padding:9px 11px;background:#fff}
 .table-wrap{overflow:auto}
 table{width:100%;border-collapse:separate;border-spacing:0;min-width:1550px}
 th{position:sticky;top:0;background:linear-gradient(180deg,var(--cyan2),var(--cyan));color:#12363d;font-size:11px;text-transform:uppercase;padding:12px 9px;border-right:1px solid rgba(255,255,255,.5)}
 td{padding:10px 9px;border-bottom:1px solid #e7f1f2;border-right:1px solid #edf5f6;font-size:12.5px;background:#fff}
-tr:nth-child(even) td{background:#fafdfe} tr:hover td{background:#eefafb}
+tr:nth-child(even) td{background:#fafdfe}
+tr:hover td{background:#eefafb}
 .status{display:inline-block;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800}
-.finalizado{background:#ddf4e8;color:#176e4a} .pendiente{background:#fff0ce;color:#8d620b}
+.finalizado{background:#ddf4e8;color:#176e4a}
+.pendiente{background:#fff0ce;color:#8d620b}
 .otro{background:#e8f1f7;color:#456273}
-.obs{min-width:220px} .modalidad{font-weight:700;color:#286f78}
+.obs{min-width:220px}
+.modalidad{font-weight:700;color:#286f78}
 .message{padding:13px 17px;border-bottom:1px solid var(--line);background:#f8fcfd;color:var(--muted);font-size:13px}
 .message.ok{background:#effaf6;color:#267052}
 .message.error{background:#fff2f2;color:#9d3434}
 footer{text-align:center;color:var(--muted);font-size:12px;padding-top:18px}
-@media(max-width:1000px){.metrics{grid-template-columns:repeat(2,1fr)}.progress{grid-template-columns:1fr}.header-inner{flex-direction:column;align-items:flex-start}}
-@media(max-width:560px){.metrics{grid-template-columns:1fr}}
+
+@media(max-width:1000px){
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .progress{grid-template-columns:1fr}
+  .header-inner{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:560px){
+  .metrics{grid-template-columns:1fr}
+}
 </style>
 </head>
+
 <body>
-<header><div class="header-inner">
-<div><h1>Seguimiento de Talleres DDRISS 2026</h1><div class="sub">Capacitación, seguimiento y actualización territorial</div></div>
+
+<header>
+<div class="header-inner">
+<div>
+<h1>Seguimiento de Talleres DDRISS 2026</h1>
+<div class="sub">Capacitación, seguimiento y actualización territorial</div>
+</div>
 <div class="tag">Ordenamiento Territorial 2026</div>
-</div></header>
+</div>
+</header>
 
 <main>
+
 <section class="metrics">
-<div class="metric"><div class="label">Total DDRISS</div><div class="value" id="total">—</div><div class="hint">&nbsp;</div></div>
-<div class="metric"><div class="label">Talleres finalizados</div><div class="value" id="fin">—</div><div class="hint">Estado FINALIZADO</div></div>
-<div class="metric"><div class="label">Talleres pendientes</div><div class="value" id="pen">—</div><div class="hint">Por ejecutar</div></div>
-<div class="metric"><div class="label">Participantes</div><div class="value" id="part">—</div><div class="hint">Registrados</div></div>
-<div class="metric"><div class="label">Modalidad virtual</div><div class="value" id="virt">—</div><div class="hint">DDRISS registradas</div></div>
+
+<div class="metric">
+<div class="label">Total DDRISS</div>
+<div class="value" id="total">—</div>
+<div class="hint">&nbsp;</div>
+</div>
+
+<div class="metric">
+<div class="label">Talleres finalizados</div>
+<div class="value" id="fin">—</div>
+<div class="hint">Estado FINALIZADO</div>
+</div>
+
+<div class="metric">
+<div class="label">Talleres pendientes</div>
+<div class="value" id="pen">—</div>
+<div class="hint">Por ejecutar</div>
+</div>
+
+<div class="metric">
+<div class="label">Participantes</div>
+<div class="value" id="part">—</div>
+<div class="hint">Registrados</div>
+</div>
+
+<div class="metric">
+<div class="label">Modalidad virtual</div>
+<div class="value" id="virt">—</div>
+<div class="hint">DDRISS registradas</div>
+</div>
+
 </section>
 
 <section class="progress">
-<div class="ring" id="ring"><div class="ringin"><div><strong id="pct">0%</strong><span>CAPACITACIÓN</span></div></div></div>
+
+<div class="ring" id="ring">
+<div class="ringin">
+<div>
+<strong id="pct">0%</strong>
+<span>CAPACITACIÓN</span>
+</div>
+</div>
+</div>
+
 <div>
 <h2>Porcentaje general de capacitación</h2>
 <p id="progressText">Cargando información...</p>
-<div class="bar"><div id="bar"></div></div>
-<div class="hint">Se calcula automáticamente con <b>ESTADO DEL TALLER = FINALIZADO</b>.</div>
+
+<div class="bar">
+<div id="bar"></div>
+</div>
+
+<div class="hint">
+Se calcula automáticamente con <b>ESTADO DEL TALLER = FINALIZADO</b>.
+</div>
+
 </div>
 </section>
 
 <section class="panel">
+
 <div class="toolbar">
+
 <h2>Matriz de seguimiento</h2>
+
 <div class="controls">
-<input id="search" placeholder="Buscar DDRISS, técnico u observación...">
-<select id="filter"><option value="">Todos los estados</option><option value="FINALIZADO">FINALIZADO</option><option value="PENDIENTE">PENDIENTE</option></select>
+
+<input id="search"
+placeholder="Buscar DDRISS, técnico u observación...">
+
+<select id="filter">
+<option value="">Todos los estados</option>
+<option value="FINALIZADO">FINALIZADO</option>
+<option value="PENDIENTE">PENDIENTE</option>
+</select>
+
 </div>
 </div>
-<div id="message" class="message">Conectando con Google Sheets...</div>
+
+<div id="message" class="message">
+Conectando con Google Sheets...
+</div>
+
 <div class="table-wrap">
+
 <table>
-<thead><tr>
-<th>No.</th><th>DDRISS</th><th>Fecha del Taller</th><th>Estado del Taller</th><th>Técnico para el Seguimiento</th><th>Modalidad</th><th>Participantes</th><th>Fecha de Actualización</th><th>Enlace DDRISS</th><th>Teléfono</th><th>Observaciones</th>
-</tr></thead>
+
+<thead>
+<tr>
+<th>No.</th>
+<th>DDRISS</th>
+<th>Fecha del Taller</th>
+<th>Estado del Taller</th>
+<th>Técnico para el Seguimiento</th>
+<th>Modalidad</th>
+<th>Participantes</th>
+<th>Fecha de Actualización</th>
+<th>Enlace DDRISS</th>
+<th>Teléfono</th>
+<th>Observaciones</th>
+</tr>
+</thead>
+
 <tbody id="tbody"></tbody>
+
 </table>
+
 </div>
 </section>
-<footer>DDRISS-TERRITORIOS · Seguimiento 2026</footer>
+
+<footer>
+DDRISS-TERRITORIOS · Seguimiento 2026
+</footer>
+
 </main>
 
 <script>
-let data = [];
 
-function norm(s) {
-  return String(s ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim().toUpperCase().replace(/\s+/g," ");
-}
-function esc(v) {
-  return String(v ?? "").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"})[ch]);
-}
-function cellValue(c) {
-  if (!c) return "";
-  if (c.f != null) return c.f;
-  return c.v == null ? "" : c.v;
-}
-function statusClass(s) {
-  if (s==="FINALIZADO") return "finalizado";
-  if (s==="PENDIENTE") return "pendiente";
-  return "otro";
-}
-function render() {
-  const q=norm(document.getElementById("search").value);
-  const f=document.getElementById("filter").value;
-  const rows=data.filter(r=>(!f||r.estado===f)&&(!q||norm(Object.values(r).join(" ")).includes(q)));
-  document.getElementById("tbody").innerHTML=rows.map(r=>`
-  <tr>
-  <td>${esc(r.no)}</td><td><b>${esc(r.ddriss)}</b></td><td>${esc(r.fecha)||"—"}</td>
-  <td><span class="status ${statusClass(r.estado)}">${esc(r.estado||"—")}</span></td>
-  <td>${esc(r.tecnico)||"—"}</td><td class="modalidad">${esc(r.modalidad)||"—"}</td>
-  <td>${esc(r.participantes)||"0"}</td><td>${esc(r.actualizacion)||"—"}</td>
-  <td>${esc(r.enlace)||"—"}</td><td>${esc(r.telefono)||"—"}</td><td class="obs">${esc(r.obs)||"—"}</td>
-  </tr>`).join("");
+let data=[];
 
-  const total=data.length;
-  const fin=data.filter(r=>r.estado==="FINALIZADO").length;
-  const pen=data.filter(r=>r.estado==="PENDIENTE").length;
-  const part=data.reduce((s,r)=>s+(Number(String(r.participantes).replace(/[^0-9.-]/g,""))||0),0);
-  const virt=data.filter(r=>r.modalidad==="VIRTUAL").length;
-  const pct=total?(fin/total)*100:0;
-  document.getElementById("total").textContent=total;
-  document.getElementById("fin").textContent=fin;
-  document.getElementById("pen").textContent=pen;
-  document.getElementById("part").textContent=part.toLocaleString("es-GT");
-  document.getElementById("virt").textContent=virt;
-  document.getElementById("pct").textContent=pct.toFixed(2)+"%";
-  document.getElementById("progressText").textContent=`${fin} de ${total} talleres finalizados.`;
-  document.getElementById("bar").style.width=pct+"%";
-  document.getElementById("ring").style.background=`conic-gradient(var(--cyan) ${pct*3.6}deg,#e8f2f4 0deg)`;
+function norm(s){
+return String(s ?? "")
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g,"")
+.trim()
+.toUpperCase()
+.replace(/\s+/g," ");
 }
 
-window.google = {
-  visualization: {
-    Query: {
-      setResponse: function(resp) {
-        const msg=document.getElementById("message");
-        try {
-          if (!resp || !resp.table || !resp.table.rows) throw new Error("Respuesta vacía");
-          const cols=resp.table.cols.map(c=>norm(c.label));
-          const idx = (names) => {
-            for (const name of names) {
-              const i=cols.indexOf(norm(name));
-              if (i>=0) return i;
-            }
-            return -1;
-          };
-          const indexes = {
-            no: idx(["NO","N°","NUMERO"]),
-            ddriss: idx(["DDRISS"]),
-            fecha: idx(["FECHA DEL TALLER"]),
-            estado: idx(["ESTADO DEL TALLER"]),
-            tecnico: idx(["TECNICO PARA EL SEGUIMIENTO","TÉCNICO PARA EL SEGUIMIENTO"]),
-            modalidad: idx(["MODALIDAD"]),
-            participantes: idx(["PARTICIPANTES"]),
-            actualizacion: idx(["FECHA DE ACTUALIZACION","FECHA DE ACTUALIZACIÓN"]),
-            enlace: idx(["ENLACE DDRISS"]),
-            telefono: idx(["TELEFONO","TELÉFONO"]),
-            obs: idx(["OBSERVACIONES"])
-          };
-          const get=(row,i)=> i>=0 ? cellValue(row.c[i]) : "";
-          data=resp.table.rows.map((row,k)=>({
-            no:get(row,indexes.no)||k+1,
-            ddriss:get(row,indexes.ddriss),
-            fecha:get(row,indexes.fecha),
-            estado:norm(get(row,indexes.estado)),
-            tecnico:get(row,indexes.tecnico),
-            modalidad:norm(get(row,indexes.modalidad)),
-            participantes:get(row,indexes.participantes),
-            actualizacion:get(row,indexes.actualizacion),
-            enlace:get(row,indexes.enlace),
-            telefono:get(row,indexes.telefono),
-            obs:get(row,indexes.obs)
-          })).filter(r=>r.ddriss);
-          if(!data.length) throw new Error("No se encontraron filas DDRISS");
-          msg.className="message ok";
-          msg.textContent="Datos cargados automáticamente desde Google Sheets.";
-          render();
-        } catch(e) {
-          msg.className="message error";
-          msg.textContent="Google Sheets respondió, pero no se pudieron reconocer los encabezados. Revisa que la fila 1 conserve los nombres de las columnas.";
-          document.getElementById("progressText").textContent="Sin datos disponibles.";
-        }
-      }
-    }
-  }
+function esc(v){
+return String(v ?? "").replace(
+/[&<>"']/g,
+ch=>({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+"\"":"&quot;",
+"'":"&#039;"
+})[ch]
+);
+}
+
+function cellValue(c){
+if(!c) return "";
+if(c.f != null) return c.f;
+return c.v == null ? "" : c.v;
+}
+
+function statusClass(s){
+if(s==="FINALIZADO") return "finalizado";
+if(s==="PENDIENTE") return "pendiente";
+return "otro";
+}
+
+function render(){
+
+const q=norm(document.getElementById("search").value);
+const f=document.getElementById("filter").value;
+
+const rows=data.filter(r=>
+(!f || r.estado===f) &&
+(!q || norm(Object.values(r).join(" ")).includes(q))
+);
+
+document.getElementById("tbody").innerHTML=
+rows.map(r=>`
+
+<tr>
+
+<td>${esc(r.no)}</td>
+
+<td>
+<b>${esc(r.ddriss)}</b>
+</td>
+
+<td>${esc(r.fecha)||"—"}</td>
+
+<td>
+<span class="status ${statusClass(r.estado)}">
+${esc(r.estado||"—")}
+</span>
+</td>
+
+<td>${esc(r.tecnico)||"—"}</td>
+
+<td class="modalidad">
+${esc(r.modalidad)||"—"}
+</td>
+
+<td>${esc(r.participantes)||"0"}</td>
+
+<td>${esc(r.actualizacion)||"—"}</td>
+
+<td>${esc(r.enlace)||"—"}</td>
+
+<td>${esc(r.telefono)||"—"}</td>
+
+<td class="obs">
+${esc(r.obs)||"—"}
+</td>
+
+</tr>
+
+`).join("");
+
+const total=data.length;
+
+const fin=
+data.filter(r=>r.estado==="FINALIZADO").length;
+
+const pen=
+data.filter(r=>r.estado==="PENDIENTE").length;
+
+const part=data.reduce(
+(s,r)=>
+s+(Number(
+String(r.participantes)
+.replace(/[^0-9.-]/g,"")
+)||0),
+0
+);
+
+const virt=
+data.filter(r=>r.modalidad==="VIRTUAL").length;
+
+const pct=
+total ? (fin/total)*100 : 0;
+
+document.getElementById("total").textContent=total;
+document.getElementById("fin").textContent=fin;
+document.getElementById("pen").textContent=pen;
+
+document.getElementById("part").textContent=
+part.toLocaleString("es-GT");
+
+document.getElementById("virt").textContent=virt;
+
+document.getElementById("pct").textContent=
+pct.toFixed(2)+"%";
+
+document.getElementById("progressText").textContent=
+`${fin} de ${total} talleres finalizados.`;
+
+document.getElementById("bar").style.width=
+pct+"%";
+
+document.getElementById("ring").style.background=
+`conic-gradient(
+var(--cyan) ${pct*3.6}deg,
+#e8f2f4 0deg
+)`;
+
+}
+
+window.google={
+visualization:{
+Query:{
+setResponse:function(resp){
+
+const msg=
+document.getElementById("message");
+
+try{
+
+if(
+!resp ||
+!resp.table ||
+!resp.table.rows
+)
+throw new Error("Respuesta vacía");
+
+const cols=
+resp.table.cols.map(
+c=>norm(c.label)
+);
+
+const idx=(names)=>{
+
+for(const name of names){
+
+const i=
+cols.indexOf(norm(name));
+
+if(i>=0)
+return i;
+
+}
+
+return -1;
+
 };
 
-document.getElementById("search").addEventListener("input",render);
-document.getElementById("filter").addEventListener("change",render);
+const indexes={
+
+no:idx([
+"NO",
+"N°",
+"NUMERO"
+]),
+
+ddriss:idx([
+"DDRISS"
+]),
+
+fecha:idx([
+"FECHA DEL TALLER"
+]),
+
+estado:idx([
+"ESTADO DEL TALLER"
+]),
+
+tecnico:idx([
+"TECNICO PARA EL SEGUIMIENTO",
+"TÉCNICO PARA EL SEGUIMIENTO"
+]),
+
+modalidad:idx([
+"MODALIDAD"
+]),
+
+participantes:idx([
+"PARTICIPANTES"
+]),
+
+actualizacion:idx([
+"FECHA DE ACTUALIZACION",
+"FECHA DE ACTUALIZACIÓN"
+]),
+
+enlace:idx([
+"ENLACE DDRISS"
+]),
+
+telefono:idx([
+"TELEFONO",
+"TELÉFONO"
+]),
+
+obs:idx([
+"OBSERVACIONES"
+])
+
+};
+
+const get=(row,i)=>
+i>=0
+? cellValue(row.c[i])
+: "";
+
+data=
+resp.table.rows.map(
+(row,k)=>({
+
+no:
+get(row,indexes.no)||k+1,
+
+ddriss:
+get(row,indexes.ddriss),
+
+fecha:
+get(row,indexes.fecha),
+
+estado:
+norm(get(row,indexes.estado)),
+
+tecnico:
+get(row,indexes.tecnico),
+
+modalidad:
+norm(get(row,indexes.modalidad)),
+
+participantes:
+get(row,indexes.participantes),
+
+actualizacion:
+get(row,indexes.actualizacion),
+
+enlace:
+get(row,indexes.enlace),
+
+telefono:
+get(row,indexes.telefono),
+
+obs:
+get(row,indexes.obs)
+
+})
+).filter(r=>r.ddriss);
+
+if(!data.length)
+throw new Error(
+"No se encontraron filas DDRISS"
+);
+
+msg.className="message ok";
+
+msg.textContent=
+"Datos cargados automáticamente desde Google Sheets.";
+
+render();
+
+}catch(e){
+
+msg.className="message error";
+
+msg.textContent=
+"Google Sheets respondió, pero no se pudieron reconocer los encabezados. Revisa que la fila 1 conserve los nombres de las columnas.";
+
+document.getElementById(
+"progressText"
+).textContent=
+"Sin datos disponibles.";
+
+}
+
+}
+}
+}
+};
+
+document.getElementById("search")
+.addEventListener("input",render);
+
+document.getElementById("filter")
+.addEventListener("change",render);
+
+
+/* CONEXIÓN GOOGLE SHEETS */
 
 const s=document.createElement("script");
-s.src='https://docs.google.com/spreadsheets/d/e/2PACX-1vS63Zs4xfStxRAqpx0YzgCbNIzmPQ48tUSWj3aulZoE0UnfUVqbZmykVrvqT9s8Xf_HgoCW0uOH-PTO/gviz/tq?gid=0&tqx=out:json'+"&_="+Date.now();
+
+s.src=
+'https://docs.google.com/spreadsheets/d/e/2PACX-1vS63Zs4xfStxRAqpx0YzgCbNIzmPQ48tUSWj3aulZoE0UnfUVqbZmykVrvqT9s8Xf_HgoCW0uOH-PTO/gviz/tq?tqx=out:json&gid=0&headers=1&_='
++Date.now();
+
 s.onerror=function(){
-  const msg=document.getElementById("message");
-  msg.className="message error";
-  msg.textContent="No fue posible conectarse con Google Sheets. Verifica que la hoja siga publicada en la Web.";
-  document.getElementById("progressText").textContent="Sin datos disponibles.";
+
+const msg=
+document.getElementById("message");
+
+msg.className=
+"message error";
+
+msg.textContent=
+"No fue posible conectarse con Google Sheets. Verifica que la hoja siga publicada en la Web.";
+
+document.getElementById(
+"progressText"
+).textContent=
+"Sin datos disponibles.";
+
 };
+
 document.head.appendChild(s);
+
 </script>
+
 </body>
 </html>
