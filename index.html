@@ -19,12 +19,20 @@ body{background:#f6fbfc;font-size:16px}header{padding:26px max(4%,20px)}header s
 // CONEXIÓN ORIGINAL: se conserva la misma hoja publicada.
 const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vS63Zs4xfStxRAqpx0YzgCbNIzmPQ48tUSWj3aulZoE0UnfUVqbZmykVrvqT9s8Xf_HgoCW0uOH-PTO/pub?gid=0&single=true&output=csv';
 const EXPECTED_DDRISS=29;
-// FOTOS NUEVAS: suba los archivos a la carpeta fotos-capacitaciones del repositorio.
-// Después escriba sus nombres exactos entre comillas, separados por comas.
-// Ejemplo: const FOTOS = ['foto-01.jpg', 'foto-02.jpg'];
-// La página no puede descubrir automáticamente nombres de archivos de una carpeta de GitHub.
-const CARPETA_FOTOS='./fotos-capacitaciones/';
-const FOTOS=[];
+// Enlaces de las fotografías proporcionados por el usuario.
+// Para cambiar una fotografía, sustituya su enlace en esta lista.
+const FOTOS=[
+ 'https://github.com/user-attachments/assets/a6e27a7a-5476-46fc-b044-8d3976d2a445',
+ 'https://github.com/user-attachments/assets/69d24fb3-eed3-4977-9d3a-df4da9dd6500',
+ 'https://github.com/user-attachments/assets/1b0b721f-6c49-43db-a901-1573fd26b65f',
+ 'https://github.com/user-attachments/assets/a1f63771-e4dd-4cd2-8c2e-819ba0cfc559',
+ 'https://github.com/user-attachments/assets/89ff6139-421c-4509-8ad8-fa617add5fc6',
+ 'https://github.com/user-attachments/assets/48176459-2596-46ea-b84b-571c809f1c17',
+ 'https://github.com/user-attachments/assets/b104f0d6-02a0-41ea-bb03-ac9aa829448d',
+ 'https://github.com/user-attachments/assets/793f94a4-bb11-42b6-ad09-6dd90f9ac289',
+ 'https://github.com/user-attachments/assets/da3b5955-6174-4d40-a050-b817c0510dd4',
+ 'https://github.com/user-attachments/assets/de2a21e2-f5ab-45a8-92ea-6e3ade033773'
+];
 const $=id=>document.getElementById(id);
 const norm=v=>String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z0-9]+/g,' ').trim();
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -76,6 +84,6 @@ $('thead').innerHTML='<tr>'+(rows[0]?.sourceCells||[]).map(c=>'<th>'+esc(c.heade
 $('tbody').innerHTML=rows.map(r=>'<tr>'+r.sourceCells.map(c=>'<td>'+esc(c.value)+'</td>').join('')+'</tr>').join('');
 }
 async function load(){if(busy)return;busy=true;$('refresh').disabled=true;const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),25000);try{const response=await fetch(CSV_URL+'&_='+Date.now(),{cache:'no-store',signal:controller.signal});if(!response.ok)throw Error('Google Sheets respondió '+response.status);const text=await response.text();if(/^\s*</.test(text))throw Error('Google Sheets devolvió una página, no un CSV. Revise la publicación.');const result=normalizeRows(parseCSV(text));data=result.records;columns=result.map;warnings=result.notes;$('warnings').textContent=warnings.join('\n');summary();$('message').className='message';$('message').textContent='Datos consultados: '+new Date().toLocaleString('es-GT')+' · Google Sheets · actualización cada 5 minutos.'}catch(e){$('message').className='message error';$('message').textContent='No se pudo actualizar: '+(e.name==='AbortError'?'tiempo de espera agotado.':e.message)+(data.length?' Se conserva la última lectura; puede estar desactualizada.':' No se muestran ceros como si fueran datos válidos.')}finally{clearTimeout(timer);busy=false;$('refresh').disabled=false}}
-function gallery(){if(!FOTOS.length)return;$('gallery').replaceChildren();FOTOS.forEach(name=>{const b=document.createElement('button'),im=document.createElement('img');b.className='photo';b.setAttribute('aria-label','Ampliar '+name);im.alt=name;im.loading='lazy';im.src=CARPETA_FOTOS+encodeURIComponent(name);im.onerror=()=>{b.disabled=true;const msg=document.createElement('span');msg.className='photo-error';msg.textContent='Pendiente de subir: '+name;b.replaceChildren(msg)};b.append(im);b.onclick=()=>{$('largePhoto').src=im.src;$('viewer').showModal()};$('gallery').append(b)})}
+function gallery(){if(!FOTOS.length)return;$('gallery').replaceChildren();FOTOS.forEach((url,i)=>{const b=document.createElement('button'),im=document.createElement('img');const name='Fotografía '+(i+1);b.type='button';b.className='photo';b.setAttribute('aria-label','Ampliar '+name);im.alt=name;im.loading='lazy';im.decoding='async';im.src=url;im.onerror=()=>{b.disabled=true;const msg=document.createElement('span');msg.className='photo-error';msg.textContent='No se pudo cargar la fotografía '+(i+1)+'.';b.replaceChildren(msg)};b.append(im);b.onclick=()=>{$('largePhoto').src=url;$('largePhoto').alt=name;$('viewer').showModal()};$('gallery').append(b)})}
 $('refresh').onclick=load;gallery();load();setInterval(()=>{if(!document.hidden)load()},300000);
 </script></body></html>
